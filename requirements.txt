@@ -1,0 +1,7 @@
+django-extensions
+South
+django-crispy-forms
+django-debug-toolbar
+django-xadmin
+django-jsonview
+django-model-utils
