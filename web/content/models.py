@@ -3,6 +3,8 @@ from django.db import models
 from DjangoUeditor.models import UEditorField
 from model_utils.managers import PassThroughManager
 from django_extensions.db.fields import CreationDateTimeField, ModificationDateTimeField
+from .settings import UEDITOR_IMAGE_PATH
+from .settings import UEDITOR_FILE_PATH
 
 
 class DisplayQuerySet(models.query.QuerySet):
@@ -14,8 +16,8 @@ class Content(models.Model):
     title = models.CharField(max_length=25, verbose_name=u"标题")
     origin = models.CharField(max_length=20, verbose_name=u"来源")
     editor = models.CharField(max_length=10, verbose_name=u"编辑")
-    content = UEditorField(u"内容", imagePath="uploadimg/",
-                           filePath="uploadfiles/",
+    content = UEditorField(u"内容", imagePath=UEDITOR_IMAGE_PATH,
+                           filePath=UEDITOR_FILE_PATH,
                            upload_settings={"imageMaxSize": 1204000}, blank=True, null=True)
     create_time = CreationDateTimeField()
     modify_time = ModificationDateTimeField()
