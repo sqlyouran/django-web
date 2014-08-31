@@ -39,4 +39,4 @@ nosetests.xml
 .svn/
 log_info.txt
 log/
-web.sqlite
+web.sqlite3

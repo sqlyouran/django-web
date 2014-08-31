@@ -30,7 +30,7 @@ class GlobalSetting(object):
     site_title = u'后台中心'
     site_footer = u'Powered by youran'
     apps_label_title = {
-        # 'accounts': u'权限管理',
+        'accounts': u'权限管理',
         'content': u'信息管理',
     }
 

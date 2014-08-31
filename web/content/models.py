@@ -14,8 +14,8 @@ class Content(models.Model):
     title = models.CharField(max_length=25, verbose_name=u"标题")
     origin = models.CharField(max_length=20, verbose_name=u"来源")
     editor = models.CharField(max_length=10, verbose_name=u"编辑")
-    content = UEditorField(u"内容", imagePath="uploadimg/%(basename)s_%(datetime)s%(rnd)s.%(extname)s",
-                           filePath="uploadfiles/%(basename)s%(rnd)s.%(extname)s",
+    content = UEditorField(u"内容", imagePath="uploadimg/",
+                           filePath="uploadfiles/",
                            upload_settings={"imageMaxSize": 1204000}, blank=True, null=True)
     create_time = CreationDateTimeField()
     modify_time = ModificationDateTimeField()
