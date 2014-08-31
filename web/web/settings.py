@@ -1,5 +1,8 @@
-# Django settings for web project.
-
+# -*- coding: utf-8 -*-
+from os.path import join, abspath, dirname
+here = lambda *x: join(abspath(dirname(__file__)), *x)
+PROJECT_ROOT = here("..", "..")
+root = lambda *x: join(abspath(PROJECT_ROOT), *x)
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -11,8 +14,8 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '',                      # Or path to database file if using sqlite3.
+        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'web.sqlite3',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': '',
         'PASSWORD': '',
@@ -29,11 +32,11 @@ ALLOWED_HOSTS = []
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # In a Windows environment this must be set to your system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'Asia/Shanghai'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-cn'
 
 SITE_ID = 1
 
@@ -50,18 +53,18 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = root("media")
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://example.com/media/", "http://media.example.com/"
-MEDIA_URL = ''
+MEDIA_URL = '/media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = root("collected_static")
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -100,6 +103,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 ROOT_URLCONF = 'web.urls'
@@ -108,6 +112,8 @@ ROOT_URLCONF = 'web.urls'
 WSGI_APPLICATION = 'web.wsgi.application'
 
 TEMPLATE_DIRS = (
+    'templates',
+    root("templates"),
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -125,6 +131,22 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
+
+INTERNAL_IPS = ('127.0.0.1',)
+
+INSTALLED_APPS += ('debug_toolbar',
+                   # 'south',
+                   'model_utils',
+                   # 'django_extensions',
+                   'xadmin',
+                   'accounts',
+                   'content',
+                   'crispy_forms',
+                   )
+
+MIDDLEWARE_CLASSES += \
+    ("debug_toolbar.middleware.DebugToolbarMiddleware", )
+
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 
@@ -156,3 +178,30 @@ LOGGING = {
         },
     }
 }
+
+# CRISPY_TEMPLATE_PACK = 'bootstrap'
+# CRISPY_FAIL_SILENTLY = not DEBUG
+DEBUG_TOOLBAR_PANELS = (
+    'debug_toolbar.panels.versions.VersionsPanel',
+    'debug_toolbar.panels.timer.TimerPanel',
+    'debug_toolbar.panels.settings.SettingsPanel',
+    'debug_toolbar.panels.headers.HeadersPanel',
+    'debug_toolbar.panels.request.RequestPanel',
+    'debug_toolbar.panels.sql.SQLPanel',
+    'debug_toolbar.panels.staticfiles.StaticFilesPanel',
+    'debug_toolbar.panels.templates.TemplatesPanel',
+    'debug_toolbar.panels.cache.CachePanel',
+    'debug_toolbar.panels.signals.SignalsPanel',
+    'debug_toolbar.panels.logging.LoggingPanel',
+    'debug_toolbar.panels.redirects.RedirectsPanel',
+)
+
+AUTH_USER_MODEL = 'accounts.User'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_PORT = 25
+EMAIL_HOST = 'smtp.163.com'
+EMAIL_HOST_USER = 'XX@163.com'
+EMAIL_HOST_PASSWORD = 'XX'
+
+site_name = "XX网"
